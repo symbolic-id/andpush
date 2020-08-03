@@ -1,7 +1,9 @@
 # frozen-string-literal: true
 require 'net/http'
+require 'byebug'
 require 'andpush/exceptions'
 require 'andpush/json_handler'
+
 
 module Andpush
   class Client
@@ -68,7 +70,12 @@ module Andpush
         raise NetworkError, "A network error occurred: #{e.class} (#{e.message})"
       end
 
-      @observers.reduce(response) { |r, o| o.received_response(r, options) }
+      custom_response = {}
+      custom_response[:uri] = uri
+      custom_response[:headers] = headers
+      custom_response[:body] = body
+      
+      [@observers.reduce(response) { |r, o| o.received_response(r, options) }, custom_response]
     end
 
     def uri(path, query = {})
