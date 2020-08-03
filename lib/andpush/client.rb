@@ -1,6 +1,5 @@
 # frozen-string-literal: true
 require 'net/http'
-require 'byebug'
 require 'andpush/exceptions'
 require 'andpush/json_handler'
 
